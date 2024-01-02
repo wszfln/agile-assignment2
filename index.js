@@ -9,6 +9,7 @@ import authenticate from './authenticate';
 import actorsRouter from './api/actors';
 import reviewsRouter from './api/reviews';
 import genresRouter from './api/genres';
+import './seedData';
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use('/api/reviews', reviewsRouter);
 app.use('/api/genres', genresRouter);
 app.use(defaultErrHandler);
 
-app.listen(port, () => {
+let server = app.listen(port, () => {
   console.info(`Server running at ${port}`);
-});
+  });
+  module.exports = server
