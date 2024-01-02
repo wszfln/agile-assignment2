@@ -125,6 +125,8 @@ https://git.heroku.com/movie-api-staging-lyy.git
 
 GitLab: https://gitlab.com/yingyinglu1/agileassignment2-ci.git
 
+GitHub: https://github.com/wszfln/agile-assignment2.git
+
 
 ## Independent Learning (if relevant)
 
