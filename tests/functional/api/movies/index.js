@@ -93,7 +93,7 @@ describe("Movies endpoint", () => {
   describe("GET /api/movies/tmdb/movie/:id/similar", () => {
     it("should return similar movies", () => {
       return request(api)
-        .get(`/api/movies/tmdb/movie/436270/similar`)
+        .get(`/api/movies/tmdb/movie/${movies[0].id}/similar`)
         .set("Accept", "application/json")
         .expect(200)
         .then((res) => {
