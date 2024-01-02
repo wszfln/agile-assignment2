@@ -93,6 +93,18 @@ describe("Users endpoint", () => {
             });
         });
       });
+      describe("when the password is not valid", () => {
+        it("should return a 401 status and the error message", () => {
+          return request(api)
+            .post("/api/users?action=register")
+            .send({
+              username: "user3",
+              password: "badpass",
+            })
+            .expect(401)
+            .expect({code: 401,msg: 'Registration failed. Bad password'});
+        });
+      });
     });
     describe("For an authenticate action", () => {
       describe("when the payload is correct", () => {
@@ -109,6 +121,41 @@ describe("Users endpoint", () => {
               expect(res.body.token).to.not.be.undefined;
               user1token = res.body.token.substring(7);
             });
+        });
+      });
+      describe("when the username does not exist", () => {
+        it("should return a 401 status and an error message", () => {
+          return request(api)
+            .post("/api/users?action=authenticate")
+            .send({
+              username: "user7",
+              password: "Test123*",
+            })
+            .expect(401)
+            .expect({ code: 401, msg: 'Authentication failed. User not found.' })
+        });
+      });
+      describe("when the password is incorrect", () => {
+        it("should return a 401 status and an error message", () => {
+          return request(api)
+            .post("/api/users?action=authenticate")
+            .send({
+              username: "user1",
+              password: "WrongPassword",
+            })
+            .expect(401)
+            .expect({code: 401,msg: 'Authentication failed. Wrong password.'})
+        });
+      });
+      describe("when no username or password are passed", () => {
+        it("should return a 401 status and an error message", () => {
+          return request(api)
+            .post("/api/users?action=authenticate")
+            .send({
+              falseInfo: "falseInfo"
+            })
+            .expect(401)
+            .expect({success: false, msg: 'Please pass username and password.'})
         });
       });
     });
