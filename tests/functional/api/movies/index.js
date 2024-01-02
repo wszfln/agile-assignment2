@@ -36,15 +36,29 @@ describe("Movies endpoint", () => {
   afterEach(() => {
     api.close(); // Release PORT 8080
   });
-  describe("GET /api/movies ", () => {
+  describe("GET /api/movies/tmdb/discover ", () => {
     it("should return 20 movies and a status 200", (done) => {
       request(api)
-        .get("/api/movies")
+        .get("/api/movies/tmdb/discover")
         .set("Accept", "application/json")
         .expect(200)
         .end((err, res) => {
-          expect(res.body).to.be.a("array");
-          expect(res.body.length).to.equal(20);
+          expect(res.body.results).to.be.a("array");
+          expect(res.body.results.length).to.equal(20);
+          done();
+        });
+    });
+  });
+
+  describe("GET /api/movies/tmdb/upcoming ", () => {
+    it("should return 20 movies and a status 200", (done) => {
+      request(api)
+        .get("/api/movies/tmdb/upcoming")
+        .set("Accept", "application/json")
+        .expect(200)
+        .end((err, res) => {
+          expect(res.body.results).to.be.a("array");
+          expect(res.body.results.length).to.equal(20);
           done();
         });
     });
@@ -75,4 +89,29 @@ describe("Movies endpoint", () => {
       });
     });
   });
+
+  describe("GET /api/movies/tmdb/movie/:id/similar", () => {
+    it("should return similar movies", () => {
+      return request(api)
+        .get(`/api/movies/tmdb/movie/436270/similar`)
+        .set("Accept", "application/json")
+        .expect(200)
+        .then((res) => {
+          expect(res.body.results).to.be.a("array");
+          expect(res.body.results.length).to.equal(20);
+        });
+    });
+  });
+
+  describe("GET /api/movies/tmdb/movie/${movies[0].id}/credits", () => {
+    it("should return the list of actors assosiated with a movie", () => {
+      return request(api)
+        .get(`/api/movies/tmdb/movie/${movies[0].id}/credits`)
+        .set("Accept", "application/json")
+        .expect(200)
+        .then((res) => {
+          expect(res.body.cast[0]).to.have.property("name", movies[0].name);
+        });
+    });
+});
 });
