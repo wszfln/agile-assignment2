@@ -123,6 +123,8 @@ I tried to make the deployment but failed.
 
 https://git.heroku.com/movie-api-staging-lyy.git
 
+GitLab: https://gitlab.com/yingyinglu1/agileassignment2-ci.git
+
 
 ## Independent Learning (if relevant)
 
